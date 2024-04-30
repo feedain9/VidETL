@@ -2,6 +2,8 @@
 *.mp3
 *.wav
 *.env
-vids/
+video_env/
 output/
 example_videos/
+.vscode/
+.DS_Store
