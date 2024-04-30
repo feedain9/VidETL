@@ -14,13 +14,17 @@ class CaptionAdder:
         # Assuming the add_captions method applies captions to the clip and returns the modified clip
         extract_audio(video_clip, audio_filename)
         caption_json = generate_captions(audio_filename)
+        with open(r"C:\Users\armen\Documents\github\VidETL\SrtFiles\captions.json", "w") as f:
+            f.write(str(caption_json))
         if os.path.exists(audio_filename):
             os.remove(audio_filename)
         return caption_json
 
     def apply(self, video_clip):
         clips = [video_clip]  # Start with the original clip
-        caption_json = self.get_caption_json(video_clip)
+        # caption_json = self.get_caption_json(video_clip)
+        with open(r"C:\Users\armen\Documents\github\VidETL\SrtFiles\captions.json", "r") as f:
+            caption_json = eval(f.read())
 
         for segment in caption_json['segments']:
             for word_info in segment['words']:
@@ -30,10 +34,10 @@ class CaptionAdder:
 
                 # Create a TextClip for each word
                 txt_clip = TextClip(word, fontsize=self.caption_fontsize, font=self.caption_font, color=self.caption_color)
-                txt_clip = txt_clip.set_pos('bottom').set_start(start_time).set_duration(end_time - start_time)
+                txt_clip = txt_clip.set_pos('center').set_start(start_time).set_duration(end_time - start_time)
 
                 outline_txt = TextClip(word, fontsize=self.caption_fontsize+2, font=self.caption_font, color="black")
-                outline_txt_clip = outline_txt.set_pos('bottom').set_start(start_time).set_duration(end_time - start_time)
+                outline_txt_clip = outline_txt.set_pos('center').set_start(start_time).set_duration(end_time - start_time)
 
                 # Add the text clip to the list of clips
                 clips.append(outline_txt_clip)

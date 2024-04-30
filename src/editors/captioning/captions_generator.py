@@ -7,5 +7,5 @@ class CaptionGenerator:
     def generate_captions(self): 
         audio = whisper.load_audio(self.audio_file_path)
         model = whisper.load_model("tiny", device="cpu")
-        result = whisper.transcribe(model, audio, language="en")
+        result = whisper.transcribe(model, audio, language="fr")
         return result

@@ -10,11 +10,11 @@ from editors.captioning.caption_adder import CaptionAdder
 pipeline = VideoEditingPipeline()
 
 # Add tasks
-pipeline.add_task(RandomClipEditor(0, 30))
+pipeline.add_task(RandomClipEditor(0, 71))
 pipeline.add_task(AspectRatioFormatter('9:16'))
-pipeline.add_task(CaptionAdder())
+pipeline.add_task(CaptionAdder(caption_font=r"C:\Users\armen\Documents\github\VidETL\assets\Montserrat-ExtraBold.ttf",caption_fontsize=100))
 
-directory = "../example_videos/example_samples"
+directory = "example_videos\example_samples"
 for filename in os.listdir(directory):
     if filename.endswith(".mp4"):
 
@@ -24,7 +24,7 @@ for filename in os.listdir(directory):
         # Execute pipeline on video
         filename = filename.split(".mp4")[0]
         final_clipped_video = pipeline.execute(original_video)
-        output_filename = f"../output/{filename}_clip_{unique_id}.mp4"
-        final_clipped_video.write_videofile(output_filename, codec="libx264", fps=24)
+        output_filename = f"{filename}_clip_{unique_id}.mp4"
+        final_clipped_video.write_videofile(output_filename, codec="libx264", fps=24, audio_codec='aac')
 
 
